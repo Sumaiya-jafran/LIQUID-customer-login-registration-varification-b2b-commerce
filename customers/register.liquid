@@ -1,0 +1,80 @@
+<div class="sixteen columns clearfix collection_nav">
+  <h1 class="collection_title"></h1>
+</div>
+
+<div class="section clearfix">  
+  <div class="six columns offset-by-five">
+    <br class="clear" />
+    <div id="customer">
+      <!-- Create Customer -->
+      <div id="create-customer">
+
+        
+        
+        
+            <div>
+              <div class="section-header section-header--large">
+                <h4 class="section-header__title">Request an account</h4>
+              </div>
+              <p>{{ settings.wholesale_text }}</p>
+                {%- assign formId = 'WholesaleAccountForm' -%}
+       {% form 'contact', id: formId %}
+
+               {% if form.posted_successfully? %}
+                  <p class="quote">{{ 'contact.form.post_success' | t }}</p>
+                {% endif %}
+
+                {% if form.errors %}
+                  <p class="quote">{{ 'general.forms.post_error' | t }}</p>
+
+                 {% assign message = 'contact.form.message' | t %}
+                  <ul class="center">
+                    {% for field in form.errors %}
+                      {% if field == 'form' %}
+                        <li>
+                          {{ form.errors.messages[field] }}
+                        </li>
+                      {% else %}
+                        <li>
+                          {% assign field_name = field | replace: 'body', message %}
+                          {{ 'general.forms.post_field_error_html' | t: field: field_name, error: form.errors.messages[field] }}
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                   </ul>
+                {% endif %}
+<br>
+                <input type="hidden" id="{{ formId }}-ContactFormsubject" name="contact[subject]" value="Wholesale Account Request Form" />
+                <label for="{{ formId }}-ContactFormFullName" class="label">Title & Full Name *</label>
+                <input type="text" id="{{ formId }}-ContactFormFullName" name="contact[FullName]" autocapitalize="words" required>
+				<br>
+                <label for="{{ formId }}-ContactFormNameOfPharmacy" class="label">Name of Pharmacy or Health Institution *</label>
+                <input type="text" id="{{ formId }}-ContactFormNameOfPharmacy" name="contact[NameOfPharmacy]" autocapitalize="words" required>
+				<br>
+               <label for="{{ formId }}-ContactFormPositionYouHold" class="label">Position you hold *</label>
+                <input type="text" id="{{ formId }}-ContactFormPositionYouHold" name="contact[PositionYouHold]" autocapitalize="words" required>
+				<br>
+                <label for="{{ formId }}-ContactFormEmail" class="label">{{ 'contact.form.email' | t }} *</label>
+                <input type="email" id="{{ formId }}-ContactFormEmail" name="contact[email]"  autocorrect="off" autocapitalize="off" required>
+				<br>
+                <label for="{{ formId }}-ContactFormPhone" class="label">{{ 'contact.form.phone' | t }} *</label>
+                <input type="tel" id="{{ formId }}-ContactFormPhone" name="contact[{{ 'contact.form.phone' | t }}]"  pattern="[0-9\-]*" required>
+				<br>
+                <label for="{{ formId }}-BillingAddress">Billing Address *</label>
+                <textarea name="contact[BillingAddress]" id="{{ formId }}-BillingAddress" rows="4" cols="50" required></textarea>
+				<br>
+                <label for="{{ formId }}-ShippingAddress">Shipping  Address *</label>
+                <textarea name="contact[ShippingAddress]" id="{{ formId }}-ShippingAddress" rows="4" cols="50" required></textarea>
+				<br>
+                <label for="{{ formId }}-PharmacyRegistrationNumber">Pharmacy Registration Number *</label>
+                <input type="text" name="contact[PharmacyRegistrationNumber]" id="{{ formId }}-PharmacyRegistrationNumber" required>
+				<br>
+                <input type="submit" class="submit sign_up" value="{{ 'contact.form.send' | t }}">
+
+              {% endform %}
+
+           </div>
+      </div><!-- /#create-customer -->
+    </div>
+  </div>
+</div>
